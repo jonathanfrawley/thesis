@@ -9,6 +9,8 @@
 
 \documentclass[12pt]{article}
 
+\usepackage{url}
+
 \begin{document}
 \maketitle
 
@@ -30,10 +32,25 @@ Dungeons 'n' stuff
 \section{Procedural Content Generation}
 
 \subsection{City Generation}
-There has been much work on the procedural generation of cityscapes.
-A \cite{maim2007populating}
+Recently, there has been much interest in the procedural generation of cities.
+Ma\"{i}m et al.~\cite{maim2007populating} demonstrated how it is possible to recreate the population of historic cities using procedural techniques.
+The use of procedural techniques to generate the crowds in Pompeii allowed realtime simulation with great variety in character representation.
+This would not have been possible with traditional techniques.
+
+The Metropolis project~\cite{web:metropolis} investigates the simulation of crowds in a modern city context.
+Members of the crowd are modelled based on a variation of some template.
+Different clothes are applied to the same templates to give the illusion of variation in the character models~\cite{mcdonnell2007pipeline}.
+People are represented as agents which react to their environment~\cite{ulicny2002towards}.
+In this way crowds are simulated using a variety of procedural techniques.
+
+CityEngine~\cite{parish2001procedural} is an example of how procedural techniques can be applied to generates environments of great depth.
+Using a combination of extended L-systems and self-sensitive L-systems, roads are generated which realistic simulate that of a target city.
+Plans of buildings are generated between road segments in a recursive subdivision scheme, which discards inaccessible buildings.
+The models of buildings are generated using an L-system using the bounding box of the building as the axiom of the L-system.
+A technique known as \emph{layered grids} is proposed for the procedural generation of interesting textures for buildings.
 
 \subsection{Plans of buildings}
+\cite{so}
 
 \section{Demoscene}
 
