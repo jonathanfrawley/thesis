@@ -28,6 +28,13 @@
 \documentclass[a4paper, 12pt, oneside]{report}         %% LaTeX2e document.
 \usepackage {tcdthesis}              %% Preamble.
 
+\usepackage{hyperref} %This is for the cool links to parts of dissertation
+\usepackage{epsfig}
+\usepackage{amsmath}
+
+\usepackage{url}
+
+
 \mastersthesis                     %% Uncomment one of these; if you don't
 % \phdthesis                         %% use either, the default is \phdthesis.
 
@@ -138,8 +145,12 @@
 %%
 %% Include thesis chapters here...
 %%
-  \include{chapter1}
-  \include{chapter2}
+  \include{intro}
+  \include{stateoftheart}
+  \include{design}
+  \include{implementation}
+  \include{evaluation}
+  \include{conclusions}
 %   \include{chapter3}
 %   \include{chapter4}
 %   \include{chapter5}
