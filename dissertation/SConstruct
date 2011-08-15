@@ -1,0 +1,3 @@
+env = Environment()
+#pdf = env.PDF(target="thesis.pdf",sources=Glob("*.tex"))
+pdf = env.PDF(target="thesis.pdf",source="thesis.tex")
