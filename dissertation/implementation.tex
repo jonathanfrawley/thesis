@@ -24,14 +24,14 @@ Each of these phases are now described in more detail.
 
 \subsection{Plan Generation}
 A lot of time was spent researching different methods for plan generation. 
-The plans I focused on were mostly those of office buildings, influenced by Greuter et. al's work on generating entire cityscapes~\cite{greuter2003real}.
+The plans focused on were mostly those of office buildings, influenced by Greuter et. al's work on generating entire cityscapes~\cite{greuter2003real}.
 As of the time of writing, there is no definitive best way of generating plans of arbitrary buildings.
 Martin~\cite{martin2006procedural} created a method for dynamically generating the floor plans of houses.
 However the plans generated do not fill a space fully, as is needed in office buildings.
 Bradley has written a masters thesis, outlining the potential future areas which can be researched in this area~\cite{bradley2005towards}.
-I believe a masters thesis alone could be written on this topic and it there is still much to be done in the area.
+There is still much to be done in the area and but is outside the scope of this project.
 
-For the purposes of this project, I needed a system which would fill a square plan with rooms of a certain pattern.
+For the purposes of this project, we needed a system which would fill a square plan with rooms of a certain pattern.
 The pattern chosen was to create rooms along the edges, with rooms in corners extended so as to give them hallway access.
 Then rooms in the centre of the plan are generated, in a regular pattern.
 This gives the impression that hallways exist in the building.
@@ -47,6 +47,7 @@ The model generation process consists of both plan extrusion and object creation
 Plan extrusion is the process of extruding 2D plans into 3D to create rooms and object creation involves creating other objects such as pillars which cannot simply be extruded.
 
 \subsubsection{Plan Extrusion}
+\label{sec:planextr}
 Plan extrusion is done using a few simple ideas.
 One is that each room should be represented by a series of rectangles as the walls.
 This is depicted in Figure~\ref{fig:planext}.
@@ -227,10 +228,8 @@ Texture Generation is the generation of textures using procedural patterns.
 In this way we can create realistic looking materials without physically loading in any texture images.
 
 \subsection{Perlin Noise}
-Perlin Noise allows us to generate a wide variety of images base on Ken Perlin's work in 1985~\cite{Perlin:1985:IS:325165.325247}.
-Since then perlin noise has found a lot of applications in many areas such as generating heightmaps.
-However, one of the original intended uses is to generate materials procedurally.
-This project uses an existing GLSL ES shader implmentation of perlin noise, derived from work done by Ashima Arts~\cite{web:webglnoise}.
+\label{sec:implPerlin}
+This project uses an existing GLSL ES shader implementation of perlin noise, derived from work done by Ashima Arts~\cite{web:webglnoise}.
 Ashima's work is based on Gustavson's 2005 work on Simplex noise~\cite{gustavson2005simplex}.
 Simplex noise is basically an improvement on perlin noise as it is computationally more efficient and allows for higher dimensionality, up to 5D.
 

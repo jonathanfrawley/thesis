@@ -1,42 +1,87 @@
 \chapter{Introduction}
-Currently in the game industry, assets are generally created by artists, not programmers.
-These assets are usually in the form of files, generally quite large in size.
-In 3D games, assets generally refer to 3D models and textures.
+\section{Introduction}
+Currently in the games industry, assets are generally created by artists, not programmers.
+These assets are usually in the form of model files, which are generally quite large in size.
+In the context of 3D games, assets generally refer to 3D models and textures.
 Generally, the way games are structured is that assets are loaded into the game using model and texture loaders, and the game logic operates on these models and textures to present a realistic environment.
 
-A key problem with this approach is the file sizes that result from model creation and texture creation, especially in modern games where the models and textures could take up hundreds of megabytes of storage. 
+A key problem with this approach is the large file sizes that result from model and texture creation, especially in modern games where the models and textures could take up hundreds of megabytes of storage. 
 This is seen in the ``mod packs'' provided by fans of games to replace the models and textures in games, where a single model can be over 4 megabytes in size~\cite{web:oblivionmodpack}.
-With demand in the game industry for increasing complexity in graphics, as well as an increased usage of low power platforms such as mobile devices and the web, a problem exists where players will either have low-resolution models or long-load times for games.
+With demand in the game industry for increasing complexity in graphics, as well as an increased userbase for low power platforms such as mobile devices and the web, a problem exists where players will either have low-resolution models or long-load times for games.
+We can expect that with next generation titles, the size of assets will increase considerably, as games developers try to push the limits on what is possible in computer graphics.
+This has been the trend for the past generations of games and there is no reason to believe that this trend will not continue.
+
+WebGL is a new web technology which allows 3D content to be displayed in a web browser.
+It has the opportunity to provide 3D environments for the web.
+The problem of transmitting assets over the web means the load times of games are likely to be increased significantly, especially if highly-detailed models and textures are being used by game developers.
+For WebGL is to succeed as a serious platform for game development, it needs to overcome this problem somehow.
+One method for doing this would be to force players to wait to download the content before playing the game.
+However, WebGL will then compete with services such as Steam~\cite{web:steam}, which is already popular among gamers and games will have superior performance to their WebGL counterparts, as WebGL is forced to use javascript rather than compiled languages like C++ which are many times faster.
+Another approach would be to attempt to generate assets algorithmically using procedural content generation.
+This would almost eliminate download times, and would give WebGL games the advantage that download times would be very short.
 
 Procedural content generation allows us to generate assets in a procedural way, using algorithms and mathematical formulae.
 In this way, models and textures are represented using a very small amount of code, which can be seen as a form of compression.
 The Demoscene has proven that procedural generation of diverse content is possible with a very small program size~\cite{web:demoscene4k}.
 With procedural content generation, we are able to represent the same quality of models with a much smaller size of file, which is crucial for the web, where all content needs to be transmitted over the network.
+Games like .kkrieger have shown that it is possible to get the same quality of models and textures as static assets, using entirely procedural techniques.
 
+Indoor environments are used in a wide class of games such as first-person shooters including Quake, Doom 3 and Half-Life 2, which are beloved by gamers with Half-Life 2 getting an average review of over 95\% by video game critics~\cite{web:hl2gamerankings}.
+The procedural generation of indoor environments and models has not been well researched to date, with most research focusing on generating outdoor environments such as cityscapes, forests, mountains, etc.
+For procedural content generation to become widely adopted in the world of video games, techniques need to be developed to create environments for games with indoor environments.
+It is also challenging to render indoor environments, as we generally cannot reduce the level of detail of meshes which are far away which is common for video games with outdoor environments.
+There is a common technique in many games with outdoor environments which replaces far away objects with flat textures known as billboards~\cite{Decoret:2003:BCE:1201775.882326}.
+For these reasons, the dissertation focuses on the procedural generation of indoor environments.
+
+\section{Goals}
+While performing initial background research, it was noticed that although there exists much research into different techniques for procedural content generation, there has benn comparatively little research on how to incorporate procedural content generation into an existing pipeline where static assets are used.
+This is important for widespread adoption of procedural techniques in video games
 This dissertation presents an approach for incorporating procedural content generated content into a traditional game's pipeline.
+It also provides insight into how indoor environments can be generated, and how to incorporate the generation of indoor environments into this new pipeline.
+
+A sample game application was developed which uses a vertical slice of this design which can both generate content procedurally and load in static assets, based on the creator's needs.
+This game application allows for a first-person camera to explore the generated environment, giving a basis for first-person shooter games to build on.
+It also demonstrates the generality of the framework, i.e. - incorporating procedural techniques into an area where procedural techniques are not generally used in games today.
+
+Since artists are generally those who design the content, a design program was created which allows the user to develop new procedural models in a quick and simple fashion.
+Once the artist has finished designing the model, the procedural code to generate the model can be incorporated into the game application.
+
+As part of this project, we are assessing WebGL as a platform for games development.
+We are also assessing WebGL's performance and quantifying the benefit that procedural content generation will have for WebGL video games.
+
 We will show how it is possible to provide assets in a generic fashion, so that either procedural or static assets can be used.
-We also present a vertical slice prototype of this general design which genereates content procedurally, which we compare against another prototype which uses static assets.
-By comparing the two prototypes in identical scenes, we can make an informed approach as to why procedural content generation is superior in some circumstances to loading in static assets.
+We also present a vertical slice prototype of this general design which uses WebGL and which generates content procedurally, which we compare against another prototype which uses static assets.
+By comparing the two prototypes in a series of identical scenes, we can make an informed approach as to why procedural content generation is superior in some circumstances to loading in static assets.
+Finally we can evaluate the general approach and how it could be applied to different platforms such as embedded devices, as well as its ease of use and how it compares to the traditional approach.
 
-
-
-I undertook this project due to my interest in assessing WebGL as a platform for games development.
-Upon hearing about WebGL, I was very interested to research the challenges that would be involved to bring interactive 3D games to this new platform.
-
-I also have a fascination with procedural techniques, in particular the Demoscene~\cite{web:demoscene4k}.
-The generation of scenes of high complexity with a very small executable size is something which I find very interesting.
-Outside of admiring the techniques used by the Demoscene coders, I had never researched procedural techniques before.
-
-During the IET course, I gained a lot of experience with desktop OpenGL, and had some experience with GLSL.
-I had no experience with WebGL before staring this project, and it took a while to understand the limitations there were compared to desktop OpenGL.
-
-My research question of how to implement procedural content generation in WebGL came as the result of my initial research into the topic, where it was very difficult to find details on how to incorporate procedural techniques into a codebase, or how to use it in conjunction with static assets.
-
-I will now outline the chapters which are to follow:
+To recap, the main goals of this research are:
 \begin{itemize}
-	\item Chapter~\ref{ch:stateoftheart}: State-of-the-art - This chapter will describe the state of the art in terms of WebGL and procedural content generation.
-	\item Chapter~\ref{ch:design}: Design - The design of the general framework is presented and also the design of the prototype applications developed.
-	\item Chapter~\ref{ch:impl}: Implementation - Describes the implementation of the prototype and the design application.
-	\item Chapter~\ref{ch:evaluation}: Evaluation - Presents the results of performance analysis and quantative analysis of the prototype created and the design developed.
-	\item Chapter~\ref{ch:conclusions}: Conclusions And Future Work - Account of the results of the work done in the project and the research contributions made, future work which could expand on the project.
+	\item Develop a general design for incorporating procedural content generation into a traditional game's pipeline.
+	\item Create a proof of concept game application, which implements a vertical slice.
+	\item Assess WebGL as a platform for video game development. We put emphasis on how procedural content generation can be used to improve its ability as a platform for the playing of indoor games.
+	\item Create a design application which can be used to quickly assess the procedurally generated content.
+	\item Assess the design with reference to the application developed and infer its utility in other domains.
+\end{itemize}
+
+%I undertook this project due to my interest in assessing WebGL as a platform for games development.
+%Upon hearing about WebGL, I was very interested to research the challenges that would be involved to bring interactive 3D games to this new platform.
+
+%I also have a fascination with procedural techniques, in particular the Demoscene~\cite{web:demoscene4k}.
+%The generation of scenes of high complexity with a very small executable size is something which I find very interesting.
+%Outside of admiring the techniques used by the Demoscene coders, I had never researched procedural techniques before.
+
+%During the IET course, I gained a lot of experience with desktop OpenGL, and had some experience with GLSL.
+%I had no experience with WebGL before staring this project, and it took a while to understand the limitations there were compared to desktop OpenGL.
+
+%My research question of how to implement procedural content generation in WebGL came as the result of my initial research into the topic, where it was very difficult to find details on how to incorporate procedural techniques into a codebase, or how to use it in conjunction with static assets.
+
+\section{Overview of Chapters}
+An outline of the chapters to follow and the topics to be discussed is now presented:
+\begin{itemize}
+	\item Chapter~\ref{ch:backgroundwebgl}: WebGL Background - This chapter will describe some of the work done with WebGL, and perform an analysis of WebGL as a platform for games. We also look at WebGL frameworks and conclude which is best suited for our needs.
+	\item Chapter~\ref{ch:backgroundpcg}: Procedural Content Generation Background - This chapter will describe the state of the art in procedural content generation research. A particular emphasis is placed on procedural techniques which can assist in generating indoor environments. Both the generation of geometry and textures are looked at in this chapter.
+	\item Chapter~\ref{ch:design}: Design - The general design for incorporating procedural content generation into a game project is presented. The game application and design application are also discussed and their relation to the general design.
+	\item Chapter~\ref{ch:impl}: Implementation - The implemenation of the proof of concept game application and design application are described as well as any problems encountered during development and how WebGL was used in this project. Also describes how static assets are generated by the design application and read in by the game application.
+	\item Chapter~\ref{ch:evaluation}: Evaluation - Presents the results of performance tests on the WebGL game application with static assets against procedurall generated assets. A quantatative analysis is made of the prototype created and how it implements the general design created.
+	\item Chapter~\ref{ch:conclusions}: Conclusions And Future Work - This is the final discussion where the results of our evaluation are discussed in the context of what we set out to achieve. We review the project as a whole and to what extent we achieved our intended goals. We also discuss future avenues of research which could be pursued.
 \end{itemize}

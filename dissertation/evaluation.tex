@@ -3,8 +3,8 @@
 The implementation of the prototype was described in Chapter~\ref{ch:impl}.
 This chapter is concerned with testing the procedural version of the WebGL application vs. a non-procedural version, where static assets were used.
 
-To accurately determine the performance of both versions, the codebases were diverged.
 When we speak of performance we are considering initialisation time only, as when running the scenes are identical and will perform identically.
+To accurately determine the performance of both versions, the codebases were diverged.
 This is necessary as for the static assets version, the assets are included in the javascript sent to the client.
 Including these in the procedurally generated version would cause unnecessary slowdown in initialisation.
 Also, the procedurally generated version has many shaders which are unnecessary for the static assets version and would affect its initialisation time.
@@ -15,10 +15,10 @@ We will then compare the output of the program to comparable WebGL games to asse
 \section{Local Performance Test Setup - Static Assets}
 The static assets version of the codebase was setup to read in 6 different textures, one for each of the objects in the scene.
 Each texture is 1024x1024 in resolution, which is a pretty standard texture size for games theses days.
-Popular texture sites such as Mayang's textures have textures with resolution 1600x1200 ~\cite{web:mayangtex}, so I think 1024x1024 is very reasonable.
+Popular texture sites such as Mayang's textures have textures with resolution 1600x1200 ~\cite{web:mayangtex}, so we think 1024x1024 is very reasonable.
 Since the objects in the scene vary greatly in size it would be possible to texture some objects such as pillars with smaller textures, however this was not done.
 All objects use the same shaders to render them, namely the fragment shader in Listing~\ref{lst:withtexfrag} and the vertex shader in Listing~\ref{lst:withtexvert}.
-I originally wanted to create a separate bump mapping shader, where the normal information was retrieved from a texture image, however time prevented this.
+The author originally wanted to create a separate bump mapping shader, where the normal information was retrieved from a texture image, however time prevented this.
 
 Once the textures are loaded, the models are retrieved from the assets generated from the design program.
 This is described in Section~\ref{sec:staticassetimpl}, and basically involves reading line by line the models and creating WebGL buffers from these, with which we can draw the information.
@@ -38,7 +38,8 @@ However, once the objects are created, the generation of models is very fast, as
 This means that this version will be able to generate content in a more scalable fashion than the static asset version.
 
 The shaders used are far more complex than the ones used for the texture generation process, so the compilation of shaders will take longer.
-However this is a linear delay, and should not be affected by the size of the scene generated.
+This is a constant time delay however which is not dependant on the size of the content generated.
+It should then not affect the results of performance evaluation when the size of the content generated is increased.
 
 \section{Local Performance Test Results}
 This test involved deploying the code locally on a machine with the following specifications:
@@ -87,12 +88,13 @@ We can therefore conclude that for scenes where the complexity is greater than 6
 %	>> Different Loading times
 
 \section{Aesthetic Complexity}
-When we compare the aesthetics of this prototype, it is important to consider that I am not an artist.
+When we compare the aesthetics of this prototype, it is important to consider that the author is not an artist.
 This project has merely shown that procedural effects are possible using the architecture that is presented.
 It is hoped that artists will build upon the work presented here to create vastly greater effects.
 
 That said, it compares reasonably against current generation WebGL such as is seen in Figure~\ref{fig:minevstank} where a screenshot from this demo is compared against a screenshot from TankWorld, a current WebGL Game~\cite{web:tankworld}.
-As can be seen, the tankworld game contains fairly bland colours and textures, whereas my prototype contains more colourful textures, especially the skybox.
+As can be seen, the tankworld game contains models which are coloured uniformly.
+The prototype developed in this project contains more colourful textures based on perlin noise, especially the skybox.
 However, my demo does not have any lighting effects like shadowns that TankWorld has, but it does have bump mapping which TankWorld does not have.
 
 It should be said that although this prototype does not present graphically everything that procedural generation can offer, it does compare reasonably against modern WebGL games.
@@ -126,7 +128,7 @@ As said in Section~\ref{sec:designsimplicity} to extend models we simply subclas
 The entity class already has a lot of useful functions for generating models such as cuboids, so it would be trivial to create new models using these methods.
 
 \section{Research Contribution}
-I believe what is offered here is more than just an implementation of just procedural techniques in WebGL.
+The author believes what is offered here is more than just an implementation of procedural techniques in WebGL.
 We have presented a generic framework for generating procedural content in WebGL.
 The incorporation of both geometric and texture generation into a unified pipeline is unique in this project.
 

@@ -2,32 +2,27 @@
 \label{ch:design}
 WebGL promises a new generation of 3D web games.
 However the problem of transporting the assets over the network in an acceptable timeframe is challenging.
-One way of dealing with it is to use some of the procedural content generation techniques discussed in Section~\ref{sec:pcg}.
-However, how to incorporate those techniques into a new technology such as webgl is non-obvious.
-We also have to keep in mind that since this is a research project, we need to be able to evaluate our results, so having a version of the application which loads in assets from the network normally as well as one which procedurally generates assets would be advantageous.
+One way of dealing with it is to use some of the procedural content generation techniques discussed in Chapter~\ref{ch:backgroundpcg}.
+However, how to incorporate those techniques into a new technology such as WebGL is not obvious.
 
 This chapter will present the design of a system which uses procedural content generation to generate the plans of buildings in WebGL.
 The design presented is very general however, and can be used as a template for anyone incorporating any kind of procedural content generation into their projects on any platform.
 
 \section{Design Goals}
 \label{sec:designgoals}
-The design of this project involved having a few main design goals:
+Our main goals for this project were:
 \begin{itemize}
     \item Scenes which resemble a current game
     \item Ability to assess performance relative to a non-procedural version
     \item Easy to edit design program
+	\item Use a generic approach which can be applied on different platforms and with different procedural techniques
 \end{itemize}
 
-I will now describe these design goals and how they were addressed in the context of this project.
-
-\subsection{Scenes Resembling a Game}
-
-This affected every aspect of the project in one way or another.
 When it came to deciding on which texture effects would be implemented, perlin noise and bump mapping were chosen due to their wide use in games~\cite{web:perlingames}~\cite{kilgard2000practical}.
-At all aspects of this project, realt-time interactive frame rates and loading times were seen as being necessary.
+At all aspects of this project, real-time interactive frame rates and reasonable loading times were seen as being necessary, as these are necessary for modern games.
 
 \subsection{Ability to Assess Performance}
-This goal led me to the seperation of the project into two applications:
+This goal led me to the separation of the project into two applications:
 \begin{itemize}
 	\item One which allows the user to design the plan and generate geometry to be output to a file
 	\item One which displays the geometry using WebGL and can either procedurally generate the content on the fly or can read in the assets from files.
@@ -35,7 +30,7 @@ This goal led me to the seperation of the project into two applications:
 
 Two different frameworks were chosen, based on their suitability for the task.
 Processing~\cite{web:processing} was chosen as the language for the design program.
-Processing is written in the Java programming language, which I was already very familiar with.
+Processing is written in the Java programming language, which the author was already very familiar with.
 Processing has a lot of built in features for displaying and drawing 2D patterns, and it was thus ideal for displaying the plan generated to the user.
 It also easily allows the programmer to write information to files.
 
@@ -43,7 +38,7 @@ GwtGL~\cite{web:gwtgl} was chosen as the framework for the WebGL application its
 It has the advantage that it is written in the Java programming language, compiled to javascript using the Google Web Toolkit~\cite{web:gwt} compiler.
 This made code reuse possible between the main WebGL application and the design application.
 In particular, the geometry generation stages were identical in code.
-I would encourage anyone doing similar work to consider these frameworks.
+The author would encourage anyone doing similar work to consider these frameworks.
 In particular processing is a very flexible framework and is very performant.
 
 \subsection{Intuitive Design Program}
@@ -71,7 +66,7 @@ The architecture of the system is divided into two distinct applications for the
 The general architecture is depicted in Figure~\ref{fig:sysarch}.
 The architecture shows which parts of the system are shared between the 2 applications, and which parts are distinct.
 
-I believe this architecture should hold true for any project which uses procedural content generation, though the specific methods of how how the geometry is generated will likely change from project to project.
+This architecture should hold for any project which uses procedural content generation, though the specific methods of how the geometry is generated will likely change from project to project.
 This project is an implementation of this generic architecture and should be seen as a proof-of-concept that this architecture works in practice.
 The architecture's design is based on that presented by Greuter et. al in 2003~\cite{greuter2003undiscovered}, with the main exception being that our architecture also includes texture generation explictly as part of the architecture and a design program.
 
@@ -94,10 +89,10 @@ We will now focus our attention on both parts of this application in turn.
 
 \subsection{Geometry Generation}
 \label{sec:desgeomgen}
-The phases involved in the geometry generation generation process are quite general in nature.
+The phases involved in the geometry generation process are quite general in nature.
 The plan generation phase is influenced by the input parameters.
-It generates rooms in a grid-like fashion, and places other objects such as pillars in their locations also.
-The Plan Extrusion process involves creating objects from the plan generated from the plan generation process.
+It generates rooms in a grid-like fashion, and places other objects such as pillars in their locations.
+The Plan Extrusion process involves creating objects from the rooms generated during plan generation.
 Object generation creates objects based on certain parameters.
 For instance the pillars are generated to defined level by progressive refinement.
 Vertex Generation involves creating a collection of vertex objects which have enough information to render.
@@ -119,3 +114,6 @@ For textures this means loading in image files and for models it means reading f
 
 When procedural content generation has been chosen it uses common Geometry Generation phases to get the vertex information for the models.
 The procedural model loader is influenced by the input parameters and in this way models with varying complexity and size can be generated.
+
+%\section{Experiment Design}
+%Experiments were designed to be reproduceable and to be fair to both versions of the prototype.
