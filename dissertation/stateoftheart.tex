@@ -1,4 +1,5 @@
 \chapter{State Of The Art}
+\label{ch:stateoftheart}
 Today the realm of computer graphics has changed dramatically to what it was ten years ago.
 Whereas 10 years ago the only devices which supported 3D graphics were either desktop computers or custom-designed computer games consoles.
 
@@ -26,10 +27,16 @@ An existing 2D rendering context also exists known as CanvasRenderingContext2D, 
 
 WebGL enables a new generation of web games which are 3D, rather than 2D as current web games are.
 Tech demos for WebGL show advanced effects such as bump-mapping~\cite{web:webglbumpmapping} and real-time water effects~\cite{web:webglwater}.
+WebGL offers the easy delivery of applications, with no need for the user explicitly download their application to use it.
 
 WebGL provides a set of flexible primitives which should be applicable in any use case.
 The idea is that APIs will be developed on top of WebGL to provide support for specific areas.
 Indeed a list of frameworks built on top of WebGL is available on the Khronos wiki~\cite{web:webglframeworks}.
+
+However WebGL has problems which are inherent in its design.
+Since it is web based, assets need to be transported over the network.
+For large assets, this could take a long time.
+With this in mind, we consider procedural content generation and how this might be used to alleviate the problem.
 
 \subsection{WebGL Frameworks}
 There are a variety of web frameworks to choose from nowadays.
@@ -41,11 +48,13 @@ Javascript includes dynamic typing, objects, run-time evaluation.
 Functions are first-class objects in javascript, and it is possible to have nested functions.
 It uses prototype-based inheritance however, which most programmers would not be familiar with.
 
+For use with webgl, the advantage is that javascript is the default language for interacting with webgl.
+There are also numerous frameworks written in javascript to ease the use of webgl~\cite{web:threejs}\cite{web:copperlicht}. 
+
 There are many quirks in javascript which some programmers abuse and according to Crockford~\cite{web:javascriptbadparts}
 It's lack of strong typing and the leniancy of some web browsers on some javascript errors can make it difficult to troublshoot issues.
 
-For use with webgl, the advantage is that javascript is the default language for interacting with webgl.
-There are also numerous frameworks written in javascript to ease the use of webgl~\cite{web:threejs}\cite{web:copperlicht}. 
+Javascript was not chosen because we needed a language that would suit for both desktop and web applications, which javascript is not suited for.
 
 \paragraph{Coffee-script}
 Coffee-script~\cite{web:coffeescript} is a language which compiles directly to javascript.
@@ -53,6 +62,8 @@ It includes classical inheritance as well as comprehensions and other features w
 The output javascript passes jslint~\cite{web:jslint}, a javascript code-quality tool.
 
 It also allows the user to use webgl natively and since it compiles to javascript, all of the existing javascript frameworks can easily be used.
+
+However the syntax is very specific to javascript and the code cannot be reused outside of the web, which was essential for parts of thie project.
 
 \paragraph{Processing.js}
 Processing.js~\cite{web:processingjs} is a framework for executing programs written in the Processing~\cite{web:processing} language in the web browser.
@@ -64,27 +75,60 @@ It has support for WebGL however it does not give the programmer control over th
 Gwt~\cite{web:gwt} is a framework for creating web applications in the Java programming language~\cite{web:java}.
 The Java code is compiled to javascript as with Coffee-script.
 The advantage to using java is that it is statically typed, is well-known and there are many existing tools to use with it.
-The translation is not as straightforward however.
-It is also difficult to use javascript libraries with Gwt, requiring the writing of a jsni wrapper~\cite{web:jsni} to communicate back and forth.
+It also allows for modern compilation tools such as Apache Maven~\cite{web:maven} to be used because of the maven gwt plugin~\cite{web:mvngwtplugin}.
+This allows the codebase to be used with many different IDEs and development environments.
+It also allows for the easy deployment of the code to web servers using Apache Tomcat~\cite{web:tomcat}, which is very straightforward as maven can deploy straight to tomcat using the ``tomcat:deploy'' target~\cite{web:mvntomcatplugin}.
+
+It is difficult to use javascript libraries with Gwt, requiring the writing of a jsni wrapper~\cite{web:jsni} to communicate back and forth.
 
 There are modules for use with webgl with Gwt.
 The most mature of which is gwtgl~\cite{web:gwtgl}.
-In testing this out however it is still a work-in-progress and is not stable enough to use for this project.
 
+GwtGL was chosen for this project because of the use of java principally which the author was already familiar with and which is also used with processing, which was used for the design aspects of this project.
 
-\section{Problems With WebGL}
-%TODO:Important stuff here! 33% of demo
-    >> Difficult to use large assets
-    >> Based on OpenGL ES 2.0
-    >> Advantages
-        -> Easy delivery of applications (No need for explicit download)
-    >> Disadvantages
-        -> Limited feature set compared to desktop OpenGL.
-  - GwtGL
-  - Processing
+\section{WebGL Raw Performance}
+At the beginning of the project, it was not known whether WebGL was a bottleneck or not.
+I wanted to figure out how many triangles WebGL could handle before the framerate dropped to levels which were too low.
+The test I divised was to present a single quad on the screen, subdivided into smaller quads, based on the subdivision level.
+This concept is illustrated in Figure~\ref{fig:webgl_perf}.
+
+This test involved deploying the code locally on a machine with the following specifications:
+\begin{itemize}
+	\item Gwt version: Gwt 2.3.0
+	\item GwtGL version: GwtGL 0.9-SNAPSHOT
+	\item Web Browser: Chromium 15.0.849.0 (Developer Build 0 Linux)
+	\item Web Server: Apache Tomcat/5.5.33
+	\item OS: Linux 3.0-ARCH x86\_64
+	\item GPU: Palit Nvidia GeForce GTS 250 1024MB GDDR3 PCI-Express Graphics Card
+	\item CPU: Intel Core i7 920 D0 Stepping (SLBEJ) 2.66Ghz (Nehalem)
+	\item Mem: Corsair XMS3 4GB (2x2GB) DDR3 PC3-10666C9 1333MHz Triple Channel
+	\item HDD: Seagate Barracuda 7200.12 500GB SATA-II 16MB Cache
+\end{itemize}
+
+The graph of how the framerate is affected by the number of polygons on the screen is shown in Figure~\ref{fig:webgl_perf_graph}.
+The numbers shown are the averages of hundreds of samples for each scene.
+As can be seen even with 6000000 polygons on the screen at once, the framerate stays about 40 frames per second.
+I was unable to test any more due to the polygon size being too great to be loaded in by the javascript in a small enough time.
+However this proved to me that the bottleneck would not be WebGL itself, but the javascript code which loads assets.
+
+\begin{figure}
+  \centering
+  \subcaptionbox{Level 1 subdivision}{\includegraphics[width=0.5\textwidth]{images/webgl_perf0}}
+  \subcaptionbox{Level 2 subdivision}{\includegraphics[width=0.5\textwidth]{images/webgl_perf1}} 
+  \caption{Illustrating how the subdivision of the quad performance test works}
+  \label{fig:webgl_perf}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/webgl_perf_graph}
+  \caption{WebGL Framerate as the number of polygons on the screen at once increases}
+  \label{fig:webgl_perf_graph}
+\end{figure}
 
 
 \section{Procedural Content Generation (PCG)}
+\label{sec:pcg}
 The generation of procedural content is important for many real-time applications. 
 As we will see in this section it has been used to generate vast cities in real-time, the interiors of buildings and graphics effects on standard hardware.
 Procedural Content Generation has the potential to 
@@ -175,8 +219,8 @@ This is the case with .kkrieger also.
 
 \begin{figure}
   \centering
-  \subfloat[.kkrieger]{\includegraphics[width=0.5\textwidth]{images/kkrieger}}                
-  \subfloat[Doom 3]{\includegraphics[width=0.5\textwidth]{images/doom3}}                
+  \subcaptionbox{.kkrieger}{\includegraphics[width=0.5\textwidth]{images/kkrieger}}                
+  \subcaptionbox{Doom 3}{\includegraphics[width=0.5\textwidth]{images/doom3}}                
   \caption{Comparison screenshots of Doom 3 and kkrieger}
   \label{fig:kkriegerdoomcomp}
 \end{figure}

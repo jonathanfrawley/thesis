@@ -1,3 +1,42 @@
 \chapter{Introduction}
+Currently in the game industry, assets are generally created by artists, not programmers.
+These assets are usually in the form of files, generally quite large in size.
+In 3D games, assets generally refer to 3D models and textures.
+Generally, the way games are structured is that assets are loaded into the game using model and texture loaders, and the game logic operates on these models and textures to present a realistic environment.
+
+A key problem with this approach is the file sizes that result from model creation and texture creation, especially in modern games where the models and textures could take up hundreds of megabytes of storage. 
+This is seen in the ``mod packs'' provided by fans of games to replace the models and textures in games, where a single model can be over 4 megabytes in size~\cite{web:oblivionmodpack}.
+With demand in the game industry for increasing complexity in graphics, as well as an increased usage of low power platforms such as mobile devices and the web, a problem exists where players will either have low-resolution models or long-load times for games.
+
+Procedural content generation allows us to generate assets in a procedural way, using algorithms and mathematical formulae.
+In this way, models and textures are represented using a very small amount of code, which can be seen as a form of compression.
+The Demoscene has proven that procedural generation of diverse content is possible with a very small program size~\cite{web:demoscene4k}.
+With procedural content generation, we are able to represent the same quality of models with a much smaller size of file, which is crucial for the web, where all content needs to be transmitted over the network.
+
+This dissertation presents an approach for incorporating procedural content generated content into a traditional game's pipeline.
+We will show how it is possible to provide assets in a generic fashion, so that either procedural or static assets can be used.
+We also present a vertical slice prototype of this general design which genereates content procedurally, which we compare against another prototype which uses static assets.
+By comparing the two prototypes in identical scenes, we can make an informed approach as to why procedural content generation is superior in some circumstances to loading in static assets.
 
 
+
+I undertook this project due to my interest in assessing WebGL as a platform for games development.
+Upon hearing about WebGL, I was very interested to research the challenges that would be involved to bring interactive 3D games to this new platform.
+
+I also have a fascination with procedural techniques, in particular the Demoscene~\cite{web:demoscene4k}.
+The generation of scenes of high complexity with a very small executable size is something which I find very interesting.
+Outside of admiring the techniques used by the Demoscene coders, I had never researched procedural techniques before.
+
+During the IET course, I gained a lot of experience with desktop OpenGL, and had some experience with GLSL.
+I had no experience with WebGL before staring this project, and it took a while to understand the limitations there were compared to desktop OpenGL.
+
+My research question of how to implement procedural content generation in WebGL came as the result of my initial research into the topic, where it was very difficult to find details on how to incorporate procedural techniques into a codebase, or how to use it in conjunction with static assets.
+
+I will now outline the chapters which are to follow:
+\begin{itemize}
+	\item Chapter~\ref{ch:stateoftheart}: State-of-the-art - This chapter will describe the state of the art in terms of WebGL and procedural content generation.
+	\item Chapter~\ref{ch:design}: Design - The design of the general framework is presented and also the design of the prototype applications developed.
+	\item Chapter~\ref{ch:impl}: Implementation - Describes the implementation of the prototype and the design application.
+	\item Chapter~\ref{ch:evaluation}: Evaluation - Presents the results of performance analysis and quantative analysis of the prototype created and the design developed.
+	\item Chapter~\ref{ch:conclusions}: Conclusions And Future Work - Account of the results of the work done in the project and the research contributions made, future work which could expand on the project.
+\end{itemize}

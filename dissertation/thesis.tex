@@ -34,13 +34,65 @@
 
 \usepackage{url}
 \usepackage{graphicx}
-\usepackage{subfig}
+%\usepackage{subfig}
+\usepackage{caption} %replaces subfig
+\usepackage{subcaption} %replaces subfig
+
+
+
+%--------------------------------------------------------------
+\usepackage{color}
+\usepackage{xcolor}
+ \usepackage{listings}
+  \usepackage{courier}
+ \lstset{
+         basicstyle=\footnotesize\ttfamily, % Standardschrift
+         %numbers=left,               % Ort der Zeilennummern
+         numberstyle=\tiny,          % Stil der Zeilennummern
+         %stepnumber=2,               % Abstand zwischen den Zeilennummern
+         numbersep=5pt,              % Abstand der Nummern zum Text
+         tabsize=2,                  % Groesse von Tabs
+         extendedchars=true,         %
+         breaklines=true,            % Zeilen werden Umgebrochen
+         keywordstyle=\color{red},
+    		frame=b,         
+ %        keywordstyle=[1]\textbf,    % Stil der Keywords
+ %        keywordstyle=[2]\textbf,    %
+ %        keywordstyle=[3]\textbf,    %
+ %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+         stringstyle=\color{white}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         xleftmargin=17pt,
+         framexleftmargin=17pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+         %backgroundcolor=\color{lightgray},
+         showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+ }
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+         %[Visual]Basic
+         %Pascal
+         %C
+         %C++
+         %XML
+         %HTML
+         Java
+ }
+    %\DeclareCaptionFont{blue}{\color{blue}} 
+
+  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+%--------------------------------------------------------------
 
 
 \mastersthesis                     %% Uncomment one of these; if you don't
 % \phdthesis                         %% use either, the default is \phdthesis.
 
-\thesisdraft                       %% Uncomment this if you want a draft
+%\thesisdraft                       %% Uncomment this if you want a draft
                                      %% version; this will print a timestamp
                                      %% on each page of your thesis.
 
@@ -80,7 +132,7 @@
 
 \renewcommand{\thesisauthoraddress}{Trinity College Dublin}
 
-\renewcommand{\thesisdedication}{...}     %% Your dedication, if you have one; use "\\" for linebreaks.
+\renewcommand{\thesisdedication}{This is dedicated to my parents, who have supported me throughout my college years.}     %% Your dedication, if you have one; use "\\" for linebreaks.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,7 +148,7 @@
                                      %% Replace the "..." with the correct
                                      %% number of members.
 
-\renewcommand{\thesisdegree}{Master of Science in Computer Science}  
+\renewcommand{\thesisdegree}{Master of Science in Computer Science (Interactive Entertainment Technology)}  
                                      %% default is "DOCTOR OF PHILOSOPHY"
                                      %% for \phdthesis or "MASTER OF ARTS"
                                      %% for \mastersthesis.  Provide the
@@ -107,7 +159,8 @@
                                      %% Use this if you also use the above
                                      %% command; provide the OFFICIAL
                                      %% abbreviation of your thesis degree.
-\renewcommand{\thesistype}{Dissertation}    %% Use this ONLY if your thesis type
+%\renewcommand{\thesistype}{Dissertation}    %% Use this ONLY if your thesis type
+\renewcommand{\thesistype}{\mastersthesis}    %% Use this ONLY if your thesis type
                                      %% is NOT "Thesis" for \phdthesis
                                      %% or \mastersthesis.
                                      %% Provide the OFFICIAL type of the
@@ -120,8 +173,6 @@
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
 \begin{document}                                  %% BEGIN THE DOCUMENT
 
 \thesistitlepage                                  %% Generate the title page.
@@ -133,7 +184,10 @@
 %\thesisdedicationpage                             %% Generate the dedication page.
 
 \begin{thesisacknowledgments}                     %% Use this to write your
-...ACKNOWLEDGMENTS...                          %% acknowledgments; it can be anything
+I would like to thank firstly my supervisor, Dr. John Dingliana, for not only his constant support and advice during my project, but also for his role as course director, which he performed admirably.
+I would also like to thank my parents who have been amazing in supporting me throughout my college years.
+I would also like to thank everyone at DemonWare, who have provided me with feedback on my project.
+Finally, I would like to thank Aoife, my girlfriend, for helping me work to finish this thesis, and for supporting me in everything I do.
 \end{thesisacknowledgments}                       %% allowed in LaTeX2e par-mode.
 
 \begin{thesisabstract}
@@ -153,10 +207,6 @@
   \include{implementation}
   \include{evaluation}
   \include{conclusions}
-%   \include{chapter3}
-%   \include{chapter4}
-%   \include{chapter5}
-
 
 \addcontentsline {toc}{chapter}{Appendices}       %% Force Appendices to appear in contents
 \begin{appendix}

@@ -1,13 +1,32 @@
 \chapter{Conclusions And Further Work}
- - How do scenes resemble a real environment?
- - How do scenes resemble a game?
+\label{ch:conclusions}
+This thesis has presented a generic framework for the generation of procedural content in computer graphics applications.
+The emphasis has been placed on interactive applications such as games which require as little initial load time as possible.
 
-\section{Suitability of WebGL as platform for Games}
+An example application was developed which implemented the generic framework and performance analysis was performed against it and another application which loaded in meshes manually.
+Using identical scenes, the two applications were tested against each other with the initialisation time of the procedurally generated version scaling much better with the amount of triangles in the scene.
+
+This thesis has set out to outline the best practices for implementing procedural content generation in WebGL and to also prove the effectiveness of these practices with an example.
+The preceding chapters have outlined the design and implementation of such a prototype.
+
+It is hoped that this work paves the way for future researchers to develop procedural content generation in their applications, and to use the generic framework presented as their base.
 
 \section{Further Work}
+Work on improving the usability and interactivity of the design program to ensure its use by artists would be highly useful.
 
-\subsection{Progressive Meshes}
+More advanced plan generation is one possible future avenue for developers.
+At the moment there is no accepted best method for generating indoor plans of buildings of a set size.
+I believe any future work needs to take account of contextual information as CityEngine does~\cite{parish2001procedural}.
+Some method which takes account of factors such as population density, fire exits, hallway access, stairs access, etc. would be advantageous to generating arbitrary buildings.
+To implement more advanced plan generation is possible with this prototype, and the design program can be used to help in the design.
 
-\subsection{More Advanced Plan Generation}
+There is a lot of work that could be done on providing more advanced effects such as realistic wood or rusting effects which were not examined due to time constraints.
+Also some effects such as per-fragment lighting and shadow mapping could be looked at to further enhance the realism of scenes.
 
-\subsection{Artistic Authoring}
+Progressive meshes~\cite{hoppe1996progressive} is a method for representing models in an efficient, loss-less, continuous-resolution way.
+It would be useful to examine how progressive meshes could be used as another option for developers to generate meshes.
+
+Developers for other low-power platforms such as mobile devices could use the information from this thesis to generate procedural content for their games.
+
+An optimisation which could be examined is the generation of geometry on the GPU using GPGPU techniques.
+Since WebGL gives access to the GPU, there is no reason why shaders could not be used to generate geometry in a very scalable fashion.
